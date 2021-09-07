@@ -1,6 +1,7 @@
 package transliterator
 
 import (
+	"github.com/stretchr/testify/require"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -57,4 +58,41 @@ func TestItShouldTransliterateGeneral(t *testing.T) {
 		actual := transliterator.Transliterate(text, "")
 		assert.Equal(t, expected, actual)
 	}
+}
+
+func BenchmarkTransliterator_Transliterate(b *testing.B) {
+	text := "Москва выглядит красиво зимой, да?"
+	transliterator := NewTransliterator(nil)
+	var actual string
+
+	b.ReportAllocs()
+	b.ResetTimer()
+
+	for iter := 0; iter < b.N; iter++ {
+		actual = transliterator.Transliterate(text, "en")
+	}
+
+	_ = actual
+}
+
+func BenchmarkNewTransliterator(b *testing.B) {
+	b.ReportAllocs()
+	b.ResetTimer()
+
+	for iter := 0; iter < b.N; iter++ {
+		_ = NewTransliterator(nil)
+	}
+}
+
+func TestTransliterator_Transliterate_okMemory(t *testing.T) {
+	text1 := "Москва выглядит красиво зимой, да?"
+	text2 := "Мы были активированы мистер Даллиард"
+	transliterator := NewTransliterator(nil)
+
+	out1 := transliterator.Transliterate(text1, "en")
+	out2 := transliterator.Transliterate(text2, "en")
+
+	require.Equal(t, "Moskva vygliadit krasivo zimoi, da?", out1)
+	require.Equal(t, "My byli aktivirovany mister Dalliard", out2)
+	require.NotEqual(t, out1, out2)
 }
