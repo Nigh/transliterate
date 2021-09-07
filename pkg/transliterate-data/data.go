@@ -1,6 +1,6 @@
 package transliterate_data
 
-var TransliterationData = map[rune][]string{
+var Data = map[rune][]string{
 	0x000: x000,
 	0x001: x001,
 	0x002: x002,

@@ -1,14 +1,14 @@
 package transliterate_lang
 
-// LanguageOverrides structure.
-type LanguageOverrides map[string]map[rune]string
+// LangOverwrite structure.
+type LangOverwrite map[string]map[rune]string
 
 // AddLanguageOverride adds custom transliteration overrides for specific language.
-func (lo LanguageOverrides) AddLanguageOverride(langcode string, override map[rune]string) {
+func (lo LangOverwrite) AddLanguageOverride(langcode string, override map[rune]string) {
 	lo[langcode] = override
 }
 
-var LanguageOverridesData = LanguageOverrides{
+var Data = LangOverwrite{
 	"de": DE,
 	"da": DA,
 	"eo": EO,
