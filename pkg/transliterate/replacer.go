@@ -8,7 +8,6 @@ import (
 	transliterateLang "github.com/alexsergivan/transliterator/pkg/transliterate-lang"
 )
 
-// Replacer structure.
 type Replacer struct {
 	Lang transliterateLang.LangOverwrite
 	Data map[rune][]string

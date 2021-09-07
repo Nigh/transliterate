@@ -43,10 +43,10 @@ func TestReplacer_Transliterate_withCustomLang(t *testing.T) {
 		Lang: transliterateLang.Data,
 		Data: transliterateData.Data,
 	}
-	replacer.Lang.AddLanguageOverride("custom", map[rune]string{
+	replacer.Lang["custom"] = map[rune]string{
 		0x407: "CU",
 		0x438: "y",
-	})
+	}
 	actual := replacer.Transliterate(text, "custom")
 
 	assert.Equal(t, expected, actual)
@@ -227,4 +227,15 @@ func Benchmark_Transliterate_noChange(b *testing.B) {
 	for iter := 0; iter <= b.N; iter++ {
 		_ = Transliterate(text, "")
 	}
+}
+
+func TestTransliterate_equals(t *testing.T) {
+	transliterator := Replacer{
+		Lang: transliterateLang.Data,
+		Data: transliterateData.Data,
+	}
+
+	text := "Москва выглядит красиво зимой, да?"
+
+	assert.Equal(t, transliterator.Transliterate(text, ""), Transliterate(text, ""))
 }
