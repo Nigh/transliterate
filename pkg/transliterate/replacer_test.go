@@ -219,3 +219,12 @@ func TestReplacer_Transliterate_okMemory(t *testing.T) {
 	require.Equal(t, "My byli aktivirovany mister Dalliard", out2)
 	require.NotEqual(t, out1, out2)
 }
+
+func Benchmark_Transliterate_noChange(b *testing.B) {
+	b.ReportAllocs()
+
+	text := "Foo bar baz"
+	for iter := 0; iter <= b.N; iter++ {
+		_ = Transliterate(text, "")
+	}
+}
