@@ -1,4 +1,4 @@
-module github.com/alexsergivan/transliterator
+module go.sdls.io/transliterate
 
 go 1.13
 

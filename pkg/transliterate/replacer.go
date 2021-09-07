@@ -5,7 +5,7 @@ import (
 	"sync"
 	"unicode"
 
-	transliterateLang "github.com/alexsergivan/transliterator/pkg/transliterate-lang"
+	transliterateLang "go.sdls.io/transliterate/pkg/transliterate-lang"
 )
 
 type Replacer struct {

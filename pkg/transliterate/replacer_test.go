@@ -3,8 +3,8 @@ package transliterate
 import (
 	"testing"
 
-	transliterateData "github.com/alexsergivan/transliterator/pkg/transliterate-data"
-	transliterateLang "github.com/alexsergivan/transliterator/pkg/transliterate-lang"
+	transliterateData "go.sdls.io/transliterate/pkg/transliterate-data"
+	transliterateLang "go.sdls.io/transliterate/pkg/transliterate-lang"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -14,11 +14,11 @@ func TestItShouldReplaceGermanCorrectly(t *testing.T) {
 	text := "München"
 	expected := "Muenchen"
 
-	transliterator := Replacer{
+	replacer := Replacer{
 		Lang: transliterateLang.Data,
 		Data: transliterateData.Data,
 	}
-	actual := transliterator.Transliterate(text, "de")
+	actual := replacer.Transliterate(text, "de")
 
 	assert.Equal(t, expected, actual)
 }
@@ -207,13 +207,13 @@ func Benchmark_Transliterate(b *testing.B) {
 func TestReplacer_Transliterate_okMemory(t *testing.T) {
 	text1 := "Москва выглядит красиво зимой, да?"
 	text2 := "Мы были активированы мистер Даллиард"
-	transliterator := Replacer{
+	replacer := Replacer{
 		Lang: transliterateLang.Data,
 		Data: transliterateData.Data,
 	}
 
-	out1 := transliterator.Transliterate(text1, "en")
-	out2 := transliterator.Transliterate(text2, "en")
+	out1 := replacer.Transliterate(text1, "en")
+	out2 := replacer.Transliterate(text2, "en")
 
 	require.Equal(t, "Moskva vygliadit krasivo zimoi, da?", out1)
 	require.Equal(t, "My byli aktivirovany mister Dalliard", out2)
@@ -230,12 +230,12 @@ func Benchmark_Transliterate_noChange(b *testing.B) {
 }
 
 func TestTransliterate_equals(t *testing.T) {
-	transliterator := Replacer{
+	replacer := Replacer{
 		Lang: transliterateLang.Data,
 		Data: transliterateData.Data,
 	}
 
 	text := "Москва выглядит красиво зимой, да?"
 
-	assert.Equal(t, transliterator.Transliterate(text, ""), Transliterate(text, ""))
+	assert.Equal(t, replacer.Transliterate(text, ""), Transliterate(text, ""))
 }

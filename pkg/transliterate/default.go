@@ -1,8 +1,8 @@
 package transliterate
 
 import (
-	transliterateData "github.com/alexsergivan/transliterator/pkg/transliterate-data"
-	transliterateLang "github.com/alexsergivan/transliterator/pkg/transliterate-lang"
+	transliterateData "go.sdls.io/transliterate/pkg/transliterate-data"
+	transliterateLang "go.sdls.io/transliterate/pkg/transliterate-lang"
 )
 
 var defaultReplacer = Replacer{
