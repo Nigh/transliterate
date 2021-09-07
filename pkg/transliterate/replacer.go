@@ -8,6 +8,10 @@ import (
 	transliterateLang "go.sdls.io/transliterate/pkg/transliterate-lang"
 )
 
+// TODO change Transliterate API
+
+// TODO add comments to exposed types, functions, vars, etc
+
 type Replacer struct {
 	Lang transliterateLang.LangOverwrite
 	Data map[rune][]string

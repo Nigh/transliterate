@@ -48,6 +48,9 @@ go get go.sdls.io/transliterate
 Examples
 ---
 
+// TODO: Finish writing examples, also write Go style docs and examples
+
+
 Simple, default, transliteration
 
 ```go
