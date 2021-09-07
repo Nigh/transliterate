@@ -2,8 +2,9 @@ package transliterate
 
 import (
 	"bytes"
-	"github.com/alexsergivan/transliterator/internal"
 	"unicode"
+
+	"github.com/alexsergivan/transliterator/internal"
 
 	transliterateLang "github.com/alexsergivan/transliterator/pkg/transliterate-lang"
 )

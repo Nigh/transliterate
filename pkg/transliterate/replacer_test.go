@@ -1,12 +1,13 @@
 package transliterate
 
 import (
-	"github.com/alexsergivan/transliterator/pkg/transliterate-data"
-	transliterateLang "github.com/alexsergivan/transliterator/pkg/transliterate-lang"
-	"github.com/stretchr/testify/require"
 	"testing"
 
+	transliterateData "github.com/alexsergivan/transliterator/pkg/transliterate-data"
+	transliterateLang "github.com/alexsergivan/transliterator/pkg/transliterate-lang"
+
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestItShouldReplaceGermanCorrectly(t *testing.T) {
@@ -15,12 +16,11 @@ func TestItShouldReplaceGermanCorrectly(t *testing.T) {
 
 	transliterator := Replacer{
 		Lang: transliterateLang.Data,
-		Data: transliterate_data.Data,
+		Data: transliterateData.Data,
 	}
 	actual := transliterator.Transliterate(text, "de")
 
 	assert.Equal(t, expected, actual)
-
 }
 
 func TestItShouldTransliterateUkrainianCorrectly(t *testing.T) {
@@ -28,7 +28,7 @@ func TestItShouldTransliterateUkrainianCorrectly(t *testing.T) {
 	expected := "Kyiv"
 	replacer := Replacer{
 		Lang: transliterateLang.Data,
-		Data: transliterate_data.Data,
+		Data: transliterateData.Data,
 	}
 	actual := replacer.Transliterate(text, "uk")
 
@@ -41,7 +41,7 @@ func TestReplacer_Transliterate_withCustomLang(t *testing.T) {
 
 	replacer := Replacer{
 		Lang: transliterateLang.Data,
-		Data: transliterate_data.Data,
+		Data: transliterateData.Data,
 	}
 	replacer.Lang.AddLanguageOverride("custom", map[rune]string{
 		0x407: "CU",
@@ -64,7 +64,7 @@ func TestReplacer_Transliterate_general(t *testing.T) {
 
 	replacer := Replacer{
 		Lang: transliterateLang.Data,
-		Data: transliterate_data.Data,
+		Data: transliterateData.Data,
 	}
 	for text, expected := range cases {
 		actual := replacer.Transliterate(text, "")
@@ -76,7 +76,7 @@ func BenchmarkReplacer_Transliterate(b *testing.B) {
 	text := "Москва выглядит красиво зимой, да?"
 	replacer := Replacer{
 		Lang: transliterateLang.Data,
-		Data: transliterate_data.Data,
+		Data: transliterateData.Data,
 	}
 	var actual string
 
@@ -97,7 +97,7 @@ func BenchmarkNewReplacer(b *testing.B) {
 	for iter := 0; iter < b.N; iter++ {
 		_ = Replacer{
 			Lang: transliterateLang.Data,
-			Data: transliterate_data.Data,
+			Data: transliterateData.Data,
 		}
 	}
 }
@@ -209,7 +209,7 @@ func TestReplacer_Transliterate_okMemory(t *testing.T) {
 	text2 := "Мы были активированы мистер Даллиард"
 	transliterator := Replacer{
 		Lang: transliterateLang.Data,
-		Data: transliterate_data.Data,
+		Data: transliterateData.Data,
 	}
 
 	out1 := transliterator.Transliterate(text1, "en")
