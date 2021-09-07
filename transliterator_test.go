@@ -1,6 +1,8 @@
 package transliterator
 
 import (
+	"github.com/alexsergivan/transliterator/data"
+	"github.com/alexsergivan/transliterator/languages"
 	"github.com/stretchr/testify/require"
 	"testing"
 
@@ -11,7 +13,10 @@ func TestItShouldTransliterateGermanCorrectly(t *testing.T) {
 	text := "München"
 	expected := "Muenchen"
 
-	transliterator := NewTransliterator(nil)
+	transliterator := Transliterator{
+		LanguageOverrides: languages.LanguageOverridesData,
+		Data:              data.TransliterationData,
+	}
 	actual := transliterator.Transliterate(text, "de")
 
 	assert.Equal(t, expected, actual)
@@ -21,7 +26,10 @@ func TestItShouldTransliterateGermanCorrectly(t *testing.T) {
 func TestItShouldTransliterateUkrainianCorrectly(t *testing.T) {
 	text := "Київ"
 	expected := "Kyiv"
-	transliterator := NewTransliterator(nil)
+	transliterator := Transliterator{
+		LanguageOverrides: languages.LanguageOverridesData,
+		Data:              data.TransliterationData,
+	}
 	actual := transliterator.Transliterate(text, "uk")
 
 	assert.Equal(t, expected, actual)
@@ -31,13 +39,14 @@ func TestItShouldTransliterateCorrectlyWithCustomOverrides(t *testing.T) {
 	text := "КиЇв"
 	expected := "KyCUv"
 
-	customLanguageOverrites := make(map[string]map[rune]string)
-
-	customLanguageOverrites["custom"] = map[rune]string{
+	transliterator := Transliterator{
+		LanguageOverrides: languages.LanguageOverridesData,
+		Data:              data.TransliterationData,
+	}
+	transliterator.LanguageOverrides.AddLanguageOverride("custom", map[rune]string{
 		0x407: "CU",
 		0x438: "y",
-	}
-	transliterator := NewTransliterator(&customLanguageOverrites)
+	})
 	actual := transliterator.Transliterate(text, "custom")
 
 	assert.Equal(t, expected, actual)
@@ -53,7 +62,10 @@ func TestItShouldTransliterateGeneral(t *testing.T) {
 		"\u1eff":       "",
 	}
 
-	transliterator := NewTransliterator(nil)
+	transliterator := Transliterator{
+		LanguageOverrides: languages.LanguageOverridesData,
+		Data:              data.TransliterationData,
+	}
 	for text, expected := range cases {
 		actual := transliterator.Transliterate(text, "")
 		assert.Equal(t, expected, actual)
@@ -62,7 +74,10 @@ func TestItShouldTransliterateGeneral(t *testing.T) {
 
 func BenchmarkTransliterator_Transliterate(b *testing.B) {
 	text := "Москва выглядит красиво зимой, да?"
-	transliterator := NewTransliterator(nil)
+	transliterator := Transliterator{
+		LanguageOverrides: languages.LanguageOverridesData,
+		Data:              data.TransliterationData,
+	}
 	var actual string
 
 	b.ReportAllocs()
@@ -80,14 +95,20 @@ func BenchmarkNewTransliterator(b *testing.B) {
 	b.ResetTimer()
 
 	for iter := 0; iter < b.N; iter++ {
-		_ = NewTransliterator(nil)
+		_ = Transliterator{
+			LanguageOverrides: languages.LanguageOverridesData,
+			Data:              data.TransliterationData,
+		}
 	}
 }
 
 func TestTransliterator_Transliterate_okMemory(t *testing.T) {
 	text1 := "Москва выглядит красиво зимой, да?"
 	text2 := "Мы были активированы мистер Даллиард"
-	transliterator := NewTransliterator(nil)
+	transliterator := Transliterator{
+		LanguageOverrides: languages.LanguageOverridesData,
+		Data:              data.TransliterationData,
+	}
 
 	out1 := transliterator.Transliterate(text1, "en")
 	out2 := transliterator.Transliterate(text2, "en")

@@ -5,27 +5,13 @@ import (
 	"sync"
 	"unicode"
 
-	"github.com/alexsergivan/transliterator/data"
 	"github.com/alexsergivan/transliterator/languages"
 )
 
 // Transliterator structure.
 type Transliterator struct {
-	LanguageOverrides *languages.LanguageOverrides
+	LanguageOverrides languages.LanguageOverrides
 	Data              map[rune][]string
-}
-
-// NewTransliterator creates Transliterator object.
-func NewTransliterator(customLanguageOverrides *map[string]map[rune]string) *Transliterator {
-	languageOverrides := languages.NewLanguageOverrides()
-	if customLanguageOverrides != nil {
-		languageOverrides.AddLanguageOverrides(customLanguageOverrides)
-	}
-
-	return &Transliterator{
-		LanguageOverrides: languageOverrides,
-		Data:              data.NewTransliterationData().Data,
-	}
 }
 
 var memoryPool = sync.Pool{
@@ -44,7 +30,7 @@ func (t *Transliterator) Transliterate(text, langcode string) string {
 	buffer.Reset()
 
 	for _, char := range text {
-		if overrides, ok := t.LanguageOverrides.Overrides[langcode]; ok {
+		if overrides, ok := t.LanguageOverrides[langcode]; ok {
 			if val, ok := overrides[char]; ok {
 				buffer.WriteString(val)
 				continue
