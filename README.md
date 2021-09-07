@@ -1,71 +1,67 @@
-Golang text Transliterator
-==============
+Go Transliteration
+===
 
-Golang Transliterator provides one-way string transliteration. It takes Unicode text and converts to ASCII characters.
-Example use-case: transliterate cyrilic city name to be able to use it in the url ("Київ" ==> "Куiv").
+> A fancy way to map Unicode to ASCII and more.
 
-For now, only these languages have specific transliteration rules: DE, DA, EO, RU, BG, SV, HU, HR, SL, SR, NB, UK, MK, CA, BS. For other languages, general ASCII transliteration rules will be applied. Also, this package supports adding custom transliteration rules for your specific use-case. Please check the examples section below.
+This repo/fork is based off the work of [alexsergivan](https://github.com/alexsergivan) and the amazing work at [transliterator](https://github.com/alexsergivan/transliterator).
 
+Differences from the original:
+* ~50-70% decrease in time/op (speed increase)
+* Zero allocations for "creating" a new "replacer" (previously called Transliterator)
+* Single allocation during transliteration (using pooled buffers)
+* Cleaned up package
+* Benchmarks
+* New API
+* **The datasets ar NOT "safe" for modification and use by multiple clients**
+  * To ensure "safety", create deep copies of the transliterate-data and transliterate-lang datasets
+  * The default maps are global shared variables
+
+```text
+// Benchmarks on The Egg Russian Text
+
+// sudoless/transliteration
+Benchmark_Transliterate-8   	   10000	    114579 ns/op	    6529 B/op	       1 allocs/op
+21k   allocated objects
+66MB  allocated space
+
+// alexsergivan/transliterator
+Benchmark_Transliterate-8   	    4774	    251253 ns/op	   51320 B/op	      16 allocs/op
+58k   allocated objects
+237MB allocated space
+```
+
+
+Transliteration takes Unicode text and converts to ASCII characters.
+
+For now, only these languages have specific transliteration rules:
+DE, DA, EO, RU, BG, SV, HU, HR, SL, SR, NB, UK, MK, CA, BS.
+For other languages, general ASCII transliteration rules will be applied. Also, this package supports adding custom
+transliteration rules for your specific use-case. Please check the examples section below.
 
 Installation
-------------
+---
 
 ```
-go get -u github.com/alexsergivan/transliterator
+go get go.sdls.io/transliterate
 ```
 
+Examples
+---
 
-Language specific transliteration example
-------
+Simple, default, transliteration
 
 ```go
-package main
 
-import (
-	"fmt"
-	"github.com/alexsergivan/transliterator"
-)
-
-func main() {
-	trans := transliterator.NewTransliterator(nil)
-	text := "München"
-	// Langcode should be provided accrding to ISO 639-1.
-	fmt.Println(trans.Transliterate(text, "de")) // Result: Muenchen
-	fmt.Println(trans.Transliterate(text, "en")) // Result: Munchen
-
-	anotherText := "你好"
-	fmt.Println(trans.Transliterate(anotherText, "")) // Result: Ni Hao
-
-	oneMoreText := "Київ"
-	fmt.Println(trans.Transliterate(oneMoreText, "uk")) // Result: Kyiv
-	fmt.Println(trans.Transliterate(oneMoreText, "en")) // Result: Kiyiv
-	fmt.Println(trans.Transliterate(oneMoreText, "")) // Result: Kiyiv
-}
 ```
 
-Adding of custom Language translitartion rules
-------
+Adding new lang overwrites
 
 ```go
-package main
 
-import (
-	"fmt"
-	"github.com/alexsergivan/transliterator"
-)
+```
 
-func main() {
-	customLanguageOverrites := make(map[string]map[rune]string)
+Creating a custom replacer
 
-	customLanguageOverrites["myLangcode"] = map[rune]string{
-		// Ї
-		0x407: "CU",
-		// и
-		0x438: "y",
-	}
-	trans := transliterator.NewTransliterator(&customLanguageOverrites)
-	text := "КиЇв"
-	fmt.Println(trans.Transliterate(text, "myLangcode")) // Result: KyCUv
+```go
 
-}
 ```
