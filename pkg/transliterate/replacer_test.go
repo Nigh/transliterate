@@ -54,7 +54,7 @@ func TestReplacer_Transliterate_withCustomLang(t *testing.T) {
 
 func TestReplacer_Transliterate_general(t *testing.T) {
 	cases := map[string]string{
-		"北京":           "Bei Jing ",
+		"北京":           "BeiJing",
 		"80 km/h":      "80 km/h",
 		"дом":          "dom",
 		"ⓐⒶ⑳⒇⒛⓴⓾⓿":     "aA20(20)20.20100",
