@@ -42,7 +42,7 @@ Installation
 ---
 
 ```
-go get go.sdls.io/transliterate
+go get github.com/Nigh/transliterate
 ```
 
 Examples
