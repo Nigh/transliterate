@@ -3,8 +3,8 @@ package transliterate
 import (
 	"testing"
 
-	transliterateData "go.sdls.io/transliterate/pkg/transliterate-data"
-	transliterateLang "go.sdls.io/transliterate/pkg/transliterate-lang"
+	transliterateData "github.com/Nigh/transliterate/pkg/transliterate-data"
+	transliterateLang "github.com/Nigh/transliterate/pkg/transliterate-lang"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

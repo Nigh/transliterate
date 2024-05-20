@@ -1,9 +1,8 @@
-module go.sdls.io/transliterate
+module github.com/Nigh/transliterate
 
-go 1.17
+go 1.21
 
 require github.com/stretchr/testify v1.5.1
-
 
 // TODO replace testify to have 0 dependencies
 
