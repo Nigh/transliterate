@@ -10,6 +10,14 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestMixedSugar(t *testing.T) {
+	text := "This하드웨어はかなり功能强大"
+	expected := "This-ha-deu-we-eo-ha-ka-na-ri-Gong-Neng-Qiang-Da"
+	trans := Sugar("-", "")
+	actual := trans(text)
+	assert.Equal(t, expected, actual)
+}
+
 func TestItShouldReplaceGermanCorrectly(t *testing.T) {
 	text := "München"
 	expected := "Muenchen"
