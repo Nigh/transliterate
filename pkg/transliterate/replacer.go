@@ -5,7 +5,7 @@ import (
 	"sync"
 	"unicode"
 
-	transliterateLang "go.sdls.io/transliterate/pkg/transliterate-lang"
+	transliterateLang "github.com/Nigh/transliterate/pkg/transliterate-lang"
 )
 
 // TODO change Transliterate API
